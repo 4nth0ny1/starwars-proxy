@@ -8,9 +8,8 @@ let cache = apicache.middleware
 
 app.get('/', cache('2 minutes'), async (req, res) => {
     try {
-        const apiRes = await needle('get', 'https://swapi.dev/api/people/3')
+        const apiRes = await needle('get', 'https://swapi.dev/api/')
         const data = apiRes.body
-        console.log(data)
         res.status(200).json(data)
     } catch (error) {
         res.send(error)
