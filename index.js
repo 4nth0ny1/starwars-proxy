@@ -1,24 +1,20 @@
-const url = require('url')
 const express = require('express')
+const api_helper = require('./API_helper')
 const app = express()
-const needle = require('needle')
-const apicache = require('apicache')
-const { append } = require('express/lib/response')
-const port = 3000;
+const port = 3000
 
-// router.get('/', async (req, res) => {
-//     const apiRes = await needle('get', 'https://swapi.dev/api/')
-//     const data = apiRes.body
-
-//     res.status(200).json(data)
-// })
-
-// module.exports = router
-
-app.get('/', (req, res) => {
-    res.send('hello world')
+/*
+* Route to DEMO the API call to a REST API Endpoint 
+* REST URL : https://jsonplaceholder.typicode.com/todos/1
+*/
+app.get('/getAPIResponse', (req, res) => {
+    api_helper.make_API_call('https://swapi.dev/api/people/1')
+    .then(response => {
+        res.json(response)
+    })
+    .catch(error => {
+        res.send(error)
+    })
 })
 
-app.listen(port, () => {
-    console.log('listening on 3000');
-})
+app.listen(port, () => console.log(`App listening on port ${port}!`))
