@@ -23,7 +23,7 @@ app.use(cors())
 app.use(express.static('public'))
 
 // Routes
-app.use('/api', require('./routes'))
+app.use('/', require('./routes'))
 
 // Error handler middleware
 // app.use(errorHandler)

@@ -1,10 +1,11 @@
 const characterDisplay = document.querySelector('.character');
 const characterSelectForm = document.querySelector('.character-select-form');
-const characterInput = document.getElementById('character-input');
+const characterInput = document.querySelector('#character-input');
 
 // fetch character data from api
 const fetchCharacter = async (char) => {
-    const url = `/api?search=${char}`
+    const url = `?search=${char}`
+    console.log(url)
 
     const res = await fetch(url)
     const data = await res.json()
@@ -37,4 +38,4 @@ characterSelectForm.addEventListener('submit', (e) => {
     }
   })
 
-  fetchCharacter('Luke')
+  fetchCharacter('luke')

@@ -8,6 +8,8 @@ let cache = apicache.middleware
 
 router.get('/', cache('2 minutes'), async (req, res) => {
     try {
+        console.log(url.parse(req.url, true).query)
+        
         const params = new URLSearchParams({
             ...url.parse(req.url, true).query
         })
