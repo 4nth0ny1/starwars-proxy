@@ -1,19 +1,31 @@
 const express = require('express')
+const cors = require('cors')
+const rateLimit = require('express-rate-limit')
+// require('dotenv').config()
+const errorHandler = require('./middleware/error')
+
+const PORT = process.env.PORT || 5000
+
 const app = express()
-const apicache = require('apicache')
-const needle = require('needle')
-const port = 3000
 
-let cache = apicache.middleware
-
-app.get('/', cache('2 minutes'), async (req, res) => {
-    try {
-        const apiRes = await needle('get', 'https://swapi.dev/api/')
-        const data = apiRes.body
-        res.status(200).json(data)
-    } catch (error) {
-        res.send(error)
-    }
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 10 Mins
+  max: 100,
 })
+app.use(limiter)
+app.set('trust proxy', 1)
 
-app.listen(port, () => console.log(`App listening on port ${port}!`))
+// Enable cors
+app.use(cors())
+
+// Set static folder
+app.use(express.static('public'))
+
+// Routes
+app.use('/api', require('./routes'))
+
+// Error handler middleware
+app.use(errorHandler)
+
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
